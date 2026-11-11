@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>كيف يشتغل البرنامج؟</title>
+<link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;700&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#f6f7fb;--card:#fff;--ink:#1d2433;--mute:#6b7488;--line:#dde1ec;--hl:#fff3c4;--ptr:#e8590c;--kw:#7048e8;--str:#2b8a3e;--fn:#1971c2;--out:#0f1420;--outink:#8ce99a;
+box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#10141f;--card:#1a2030;--ink:#e8ecf5;--mute:#98a2b8;--line:#2c3550;--hl:#4a3f12;--ptr:#ff922b;--kw:#b197fc;--str:#8ce99a;--fn:#74c0fc;--out:#06080d;--outink:#8ce99a}}
+:root[data-theme="dark"]{--bg:#10141f;--card:#1a2030;--ink:#e8ecf5;--mute:#98a2b8;--line:#2c3550;--hl:#4a3f12;--ptr:#ff922b;--kw:#b197fc;--str:#8ce99a;--fn:#74c0fc;--out:#06080d;--outink:#8ce99a}
+html{scroll-padding-top:env(safe-area-inset-top,0px)}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:"Tajawal",system-ui,sans-serif;font-size:18px;line-height:1.6}
+main{max-width:860px;margin:0 auto;padding:20px 16px 40px}
+h1{font-size:26px;margin:0 0 14px}
+.bar{display:flex;flex-wrap:wrap;gap:10px;align-items:center;margin-bottom:16px}
+label{font-weight:700}
+input{font:inherit;width:90px;padding:6px 10px;border:2px solid var(--line);border-radius:8px;background:var(--card);color:var(--ink);text-align:center}
+button{font:inherit;font-weight:700;padding:8px 16px;border-radius:8px;border:2px solid var(--ink);background:var(--card);color:var(--ink);cursor:pointer}
+button.main{background:var(--ptr);border-color:var(--ptr);color:#fff}
+button:disabled{opacity:.4;cursor:default}
+button:focus-visible,input:focus-visible{outline:3px solid var(--fn);outline-offset:2px}
+.code{position:relative;background:var(--card);border:2px solid var(--line);border-radius:12px;padding:10px 0;direction:ltr;font-family:"JetBrains Mono",ui-monospace,Menlo,Consolas,monospace;font-size:20px;overflow-x:auto}
+.ln{height:44px;line-height:44px;padding-left:64px;padding-right:16px;white-space:pre;position:relative;transition:background .3s}
+.ln.on{background:var(--hl)}
+.ln::before{content:attr(data-n);position:absolute;left:34px;color:var(--mute);font-size:14px}
+.kw{color:var(--kw);font-weight:700}.str{color:var(--str)}.fn{color:var(--fn)}
+#ptr{position:absolute;left:6px;top:10px;width:26px;height:44px;color:var(--ptr);font-size:26px;line-height:44px;text-align:center;transition:transform .6s cubic-bezier(.5,0,.2,1);opacity:0}
+#ptr.show{opacity:1}
+.note{margin:14px 0;padding:12px 16px;border-radius:10px;border:2px solid var(--line);background:var(--card);min-height:60px}
+.row{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+@media(max-width:560px){.row{grid-template-columns:1fr}}
+.box{border-radius:12px;border:2px solid var(--line);background:var(--card);padding:10px 14px;min-height:110px}
+.box h2{font-size:16px;margin:0 0 6px;color:var(--mute)}
+.out{background:var(--out);border-color:var(--out);color:var(--outink);direction:rtl;font-size:22px}
+.out h2{color:#98a2b8}
+.var{display:inline-block;direction:ltr;font-family:ui-monospace,Menlo,Consolas,monospace;font-size:22px;padding:6px 14px;border:2px dashed var(--ptr);border-radius:8px}
+.out div{animation:pop .4s}
+@keyframes pop{from{transform:scale(.8);opacity:0}to{transform:none;opacity:1}}
+@media(prefers-reduced-motion:reduce){#ptr,.out div{transition:none;animation:none}}
+</style>
+</head>
+<body>
+<main>
+<h1>كيف يشتغل البرنامج؟</h1>
+<div class="bar">
+  <label for="m">العلامة:</label>
+  <input id="m" type="number" min="0" max="100" value="95" inputmode="numeric">
+  <button class="main" id="start">ابدأ</button>
+  <button id="next" disabled>الخطوة التالية</button>
+  <button id="auto" disabled>تشغيل تلقائي</button>
+  <button id="reset">إعادة</button>
+</div>
+
+<div class="code" id="code" dir="ltr">
+  <div id="ptr">▶</div>
+  <div class="ln" data-n="1"><span class="fn">mark</span> = <span class="fn">int</span>(<span class="fn">input</span>(<span class="str">'<bdi>ادخل علامتك: </bdi>'</span>))</div>
+  <div class="ln" data-n="2"> </div>
+  <div class="ln" data-n="3"><span class="kw">if</span> mark &gt;= 50:</div>
+  <div class="ln" data-n="4">    <span class="fn">print</span>(<span class="str">'<bdi>نجحت 🎉</bdi>'</span>)</div>
+  <div class="ln" data-n="5">    <span class="kw">if</span> mark &gt;= 90:</div>
+  <div class="ln" data-n="6">        <span class="fn">print</span>(<span class="str">'<bdi>ممتاز ⭐</bdi>'</span>)</div>
+</div>
+
+<div class="note" id="note">اكتب علامة واضغط «ابدأ» لتشوف المؤشر وهو يمشي على الكود سطر سطر.</div>
+
+<div class="row">
+  <div class="box"><h2>المتغيرات في الذاكرة</h2><div id="vars"></div></div>
+  <div class="box out"><h2>شاشة الناتج</h2><div id="out"></div></div>
+</div>
+</main>
+
+<script>
+(function(){
+var lines=document.querySelectorAll('.ln'),ptr=document.getElementById('ptr'),note=document.getElementById('note'),
+vars=document.getElementById('vars'),out=document.getElementById('out'),
+bStart=document.getElementById('start'),bNext=document.getElementById('next'),bAuto=document.getElementById('auto'),bReset=document.getElementById('reset'),inp=document.getElementById('m');
+var steps=[],i=-1,timer=null;
+
+function build(m){
+  var s=[];
+  s.push({l:1,t:'السطر 1: البرنامج يطلب علامتك، وأنت أدخلت '+m+'. يتخزن الرقم في المتغير mark.',v:m});
+  s.push({l:3,t:'السطر 3: يفحص البرنامج: هل '+m+' أكبر من أو تساوي 50؟ الجواب: '+(m>=50?'نعم، فيدخل داخل if.':'لا، فيتخطى كل السطور اللي جوّا if.'),v:m});
+  if(m>=50){
+    s.push({l:4,t:'السطر 4: الشرط صحيح، فيطبع البرنامج «نجحت».',v:m,o:'نجحت 🎉'});
+    s.push({l:5,t:'السطر 5: if ثانية داخل الأولى. هل '+m+' أكبر من أو تساوي 90؟ الجواب: '+(m>=90?'نعم.':'لا، فيتخطى السطر 6.'),v:m});
+    if(m>=90) s.push({l:6,t:'السطر 6: الشرط صحيح، فيطبع البرنامج «ممتاز».',v:m,o:'ممتاز ⭐'});
+  }
+  s.push({l:0,t:'انتهى البرنامج. شوف الناتج في شاشة الناتج.',v:m,end:true});
+  return s;
+}
+function clear(){lines.forEach(function(x){x.classList.remove('on')});ptr.classList.remove('show')}
+function show(k){
+  var s=steps[k];
+  clear();
+  if(s.l){lines[s.l-1].classList.add('on');ptr.classList.add('show');ptr.style.transform='translateY('+((s.l-1)*44)+'px)'}
+  note.textContent=s.t;
+  vars.innerHTML=(k===0&&!s.end)?'<span style="color:var(--mute)">فارغة لسه</span>':'<span class="var">mark = '+s.v+'</span>';
+  if(k===0)vars.innerHTML='<span class="var">mark = '+s.v+'</span>';
+  if(s.o){var d=document.createElement('div');d.textContent=s.o;out.appendChild(d)}
+}
+function stop(){if(timer){clearInterval(timer);timer=null}bAuto.textContent='تشغيل تلقائي'}
+function next(){
+  if(i>=steps.length-1){stop();return}
+  i++;show(i);
+  if(i>=steps.length-1){bNext.disabled=true;bAuto.disabled=true;stop()}
+}
+function start(){
+  stop();var m=parseInt(inp.value,10);
+  if(isNaN(m)){note.textContent='اكتب رقم صحيح في خانة العلامة.';return}
+  steps=build(m);i=-1;out.innerHTML='';vars.innerHTML='';
+  bNext.disabled=false;bAuto.disabled=false;next();
+}
+function reset(){
+  stop();steps=[];i=-1;clear();out.innerHTML='';vars.innerHTML='';
+  bNext.disabled=true;bAuto.disabled=true;
+  note.textContent='اكتب علامة واضغط «ابدأ» لتشوف المؤشر وهو يمشي على الكود سطر سطر.';
+}
+bStart.onclick=start;bNext.onclick=next;bReset.onclick=reset;
+bAuto.onclick=function(){
+  if(timer){stop();return}
+  bAuto.textContent='إيقاف';
+  timer=setInterval(next,2600);
+};
+})();
+</script>
+</body>
+</html>
